@@ -1,0 +1,6 @@
+[mysqlDB]
+host = localhost
+db = database_name
+user = user
+pass = password
+port = 3306
