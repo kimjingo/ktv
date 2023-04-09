@@ -1,0 +1,63 @@
+version: "3"
+
+services:
+  # nginx:
+  #   build:
+  #     context: .
+  #     dockerfile: ./docker-assets/Dockerfile-nginx
+  #   ports:
+  #     - 80:80
+  #   depends_on:
+  #     - web
+  #   networks:
+  #     - nginx_network
+
+  # python:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: python
+  #   volumes:
+  #     - .:/app
+  #   entrypoint: ['python']
+  #   working_dir: /app
+
+  # pip:
+  #   image: node:14.21
+  #   container_name: npm
+  #   volumes:
+  #     - ./src:/var/www/html
+  #   working_dir: /var/www/html
+  #   entrypoint: ['npm']
+  #   networks:
+
+
+
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+  db:
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+volumes:
+  db_data:
+
+
+# networks:
+#   nginx_network:
+#     driver: bridge
