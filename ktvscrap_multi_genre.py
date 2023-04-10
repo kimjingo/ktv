@@ -51,14 +51,67 @@ sql2 = """CREATE table IF NOT EXISTS `ktvprogram_parents` (
     UNIQUE KEY `unique` (`program_name`,`title`, `link`) \
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci """
 
+
+
 try:
     cursor.execute(sql2)
     mydb.commit()
 # except:
 except pymysql.Error as err:
-    if debug : print("31-1 : ", err)
+    if debug : print(LINE(), " : ", err)
     # print ("Error: unable to create table")
     # pass
+
+# create table requesed
+sql3 = """CREATE table IF NOT EXISTS `genres` ( 
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT, \
+    `name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT '', \
+    `created_at` datetime NULL DEFAULT CURRENT_TIMESTAMP, \
+    `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, \
+    PRIMARY KEY (`id`), \
+    UNIQUE KEY `unique` (`name`) \
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci """
+try:
+    cursor.execute(sql3)
+    mydb.commit()
+except pymysql.Error as err:
+    if debug : print(LINE(), " : ", err)
+
+sql4 = """CREATE table IF NOT EXISTS `requests` ( 
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT, \
+    `genre_id` int(10) unsigned NOT NULL, \
+    `program_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT '', \
+    `keyword` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT '', \
+    `created_at` datetime NULL DEFAULT CURRENT_TIMESTAMP, \
+    `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, \
+    PRIMARY KEY (`id`), \
+    FOREIGN KEY (`genre_id`) REFERENCES genres(`id`), \
+    UNIQUE KEY `unique` (`genre_id`, `program_name`) \
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci """
+try:
+    cursor.execute(sql4)
+    mydb.commit()
+except pymysql.Error as err:
+    if debug : print(LINE(), " : ", err)
+
+# sql4 = """CREATE table IF NOT EXISTS `requests` ( 
+#     `id` int(10) unsigned NOT NULL AUTO_INCREMENT, \
+#     `genre_id` int(10) unsigned NOT NULL AUTO_INCREMENT, \
+#     `program_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT '', \
+#     `keyword` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT '', \
+#     `created_at` datetime NULL DEFAULT CURRENT_TIMESTAMP, \
+#     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, \
+#     PRIMARY KEY (`id`), \
+#     FOREIGN KEY (`genre_id`) REFERENCES genres(`id`) \
+#     UNIQUE KEY `unique` (`genre_id`,`program_name`) \
+# ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci """
+
+# try:
+#     cursor.execute(sql4)
+#     mydb.commit()    
+# except pymysql.Error as err:
+#     if debug : print(LINE(), " : ", err)
+
 
 def insertDb_parent(cols):
     if cols != False:
@@ -128,7 +181,7 @@ def getDirMixdropUrl(prog, keyw, url):
             log += " , "
         log += ch
         regs = re.compile(ch)
-        tmp = soup3.find("a", text=regs)
+        tmp = soup3.find("a", string=regs)
         if debug : print(LINE(), " : ttttttmp : ", tmp)
         # if tmp != None:
         #     break
@@ -171,7 +224,7 @@ programs = {
         #"주주총회":"주주총회",
         #"전지적 참견 시점": "전지적",
         # "고등래퍼": "고등래퍼",
-        "쇼미더머니": "쇼미더머니",
+        # "쇼미더머니": "쇼미더머니",
         # "싱어게인": "싱어게인",
         # "씨름의 여왕": "씨름의 여왕",
         # "환승 연예2": "환승",
@@ -189,18 +242,18 @@ programs = {
         "나는 솔로": "나는 솔로",
         "나는 SOLO": "SOLO",
         # "꼬리에 꼬리를 무는 그날 이야기": "꼬리",
-        "돌싱글즈3": "돌싱글즈",
-        "천하제일장사": "천하제일장사",
-        "씨름의 제왕": "씨름의 제왕",
-        "오은영": "오은영",
-        "벌거벗은 세계사":"벌거벗은",
+        # "돌싱글즈3": "돌싱글즈",
+        "천하제일장사2": "천하제일장사2",
+        # "씨름의 제왕": "씨름의 제왕",
+        # "오은영": "오은영",
+        # "벌거벗은 세계사":"벌거벗은",
         "맛있는 녀석들": "맛있는 녀석들"
     },
     "dra":{
         # # "슬기로운 의사생활 시즌2": "슬기로운",
         # # "옷소매 붉은 끝동":"옷소매",
         # "가우스전자":"가우스전자"
-        "재벌집 막내아들":"재벌집",
+        # "재벌집 막내아들":"재벌집",
     }
 }
 channels = [
