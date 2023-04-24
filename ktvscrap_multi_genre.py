@@ -13,7 +13,13 @@ def LINE():
     return sys._getframe(1).f_lineno
 
 debug=config['app']['debug']
+debug = config.getboolean('app','debug')
+print("####",debug,"####")
+if debug : print("debug is set to True")
+else : print("debug is set to False")
+
 # debug=True
+debug=False
 mydb = storage.connect()
 
 # Open database connection
