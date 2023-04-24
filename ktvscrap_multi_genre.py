@@ -4,11 +4,15 @@ from bs4 import BeautifulSoup
 # import pymysql
 import storage
 import sys
+import configparser
+
+config = configparser.ConfigParser()
+config.read('config.ini')
 
 def LINE():
     return sys._getframe(1).f_lineno
 
-debug=False
+debug=config['app']['debug']
 # debug=True
 mydb = storage.connect()
 
@@ -93,25 +97,6 @@ try:
     mydb.commit()
 except pymysql.Error as err:
     if debug : print(LINE(), " : ", err)
-
-# sql4 = """CREATE table IF NOT EXISTS `requests` ( 
-#     `id` int(10) unsigned NOT NULL AUTO_INCREMENT, \
-#     `genre_id` int(10) unsigned NOT NULL AUTO_INCREMENT, \
-#     `program_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT '', \
-#     `keyword` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT '', \
-#     `created_at` datetime NULL DEFAULT CURRENT_TIMESTAMP, \
-#     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, \
-#     PRIMARY KEY (`id`), \
-#     FOREIGN KEY (`genre_id`) REFERENCES genres(`id`) \
-#     UNIQUE KEY `unique` (`genre_id`,`program_name`) \
-# ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci """
-
-# try:
-#     cursor.execute(sql4)
-#     mydb.commit()    
-# except pymysql.Error as err:
-#     if debug : print(LINE(), " : ", err)
-
 
 def insertDb_parent(cols):
     if cols != False:
@@ -224,11 +209,11 @@ programs = {
         #"주주총회":"주주총회",
         #"전지적 참견 시점": "전지적",
         # "고등래퍼": "고등래퍼",
-        # "쇼미더머니": "쇼미더머니",
+        "쇼미더머니": "쇼미더머니",
         # "싱어게인": "싱어게인",
-        # "씨름의 여왕": "씨름의 여왕",
+        "씨름의 여왕": "씨름의 여왕",
         # "환승 연예2": "환승",
-        # "아는 형님": "아는 형님",
+        "아는 형님": "아는 형님",
         # "미운 우리 새끼": "미운 우리 새끼",
         # "연애는 직진": "연애는 직진",
         "놀면 뭐하니": "놀면 뭐하니",
@@ -244,8 +229,8 @@ programs = {
         # "꼬리에 꼬리를 무는 그날 이야기": "꼬리",
         # "돌싱글즈3": "돌싱글즈",
         "천하제일장사2": "천하제일장사2",
-        # "씨름의 제왕": "씨름의 제왕",
-        # "오은영": "오은영",
+        "씨름의 제왕": "씨름의 제왕",
+        "오은영": "오은영",
         # "벌거벗은 세계사":"벌거벗은",
         "맛있는 녀석들": "맛있는 녀석들"
     },
