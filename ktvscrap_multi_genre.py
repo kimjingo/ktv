@@ -248,11 +248,13 @@ programs = {
     }
 }
 channels = [
-    "MIXDROP", 
-    "FLASHVID", 
-    "HLSPLAY", 
-    "SUPERVID",
-    "GG"
+    # "MIXDROP", 
+    # "FLASHVID", 
+    # "HLSPLAY", 
+    # "SUPERVID",
+    "GG",
+    "FILEMOON",
+    "WATCHSB",
 ]
 url_head = "https://dongyoungsang.club/bbs/board.php?bo_table="
 url_tail = "&sca=&sfl=wr_subject&sop=and&stx="
