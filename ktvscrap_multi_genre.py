@@ -205,7 +205,7 @@ def getDirMixdropUrl(prog, keyw, url):
 
 programs = {
     "en" : {
-        "영화가 좋다": "영화가 좋다",
+        # "영화가 좋다": "영화가 좋다",
         # "아이돌 스타 선수권대회": "아이돌 스타 선수권",
         # "스트릿 우먼 파이터":"스트릿 우먼 파이터",
         # "뭉쳐야 쏜다": "뭉쳐야",
@@ -217,7 +217,7 @@ programs = {
         # "고등래퍼": "고등래퍼",
         "쇼미더머니": "쇼미더머니",
         # "싱어게인": "싱어게인",
-        "씨름의 여왕": "씨름의 여왕",
+        # "씨름의 여왕": "씨름의 여왕",
         # "환승 연예2": "환승",
         "아는 형님": "아는 형님",
         # "미운 우리 새끼": "미운 우리 새끼",
@@ -235,8 +235,8 @@ programs = {
         # "꼬리에 꼬리를 무는 그날 이야기": "꼬리",
         # "돌싱글즈3": "돌싱글즈",
         "천하제일장사2": "천하제일장사2",
-        "씨름의 제왕": "씨름의 제왕",
-        "오은영": "오은영",
+        # "씨름의 제왕": "씨름의 제왕",
+        # "오은영": "오은영",
         # "벌거벗은 세계사":"벌거벗은",
         "맛있는 녀석들": "맛있는 녀석들"
     },
@@ -286,13 +286,13 @@ try:
     results = cursor.fetchall()
     # Fetch all the rows in a list of lists.
     for row in results:
-        # program_name = row[0]
         title = row[1]
         link = row[2]
         channel = row[3]
         updated_at = row[4]
-        # Now print fetched result
-        # print ("%s > %s : %s at %s" % (program_name, title, link, updated_at))
+        print(2222)
+        print ("%s > %s : %s at %s" % (program_name, title, link, updated_at))
+        
 except:
     if debug : print("161 : Error: unable to fetch data")
 
