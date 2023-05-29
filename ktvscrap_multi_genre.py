@@ -290,9 +290,8 @@ try:
         link = row[2]
         channel = row[3]
         updated_at = row[4]
-        print(2222)
-        print ("%s > %s : %s at %s" % (program_name, title, link, updated_at))
-        
+        # print ("%s > %s : %s at %s" % (program_name, title, link, updated_at))
+
 except:
     if debug : print("161 : Error: unable to fetch data")
 
