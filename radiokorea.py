@@ -182,7 +182,7 @@ def main():
     #     print ("Error: unable to fetch data")
 
 if __name__ == '__main__':
-    initTable(cursor)
+    # initTable(cursor)
     main()
 # disconnect from server
 mydb.close()
