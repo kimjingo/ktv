@@ -119,7 +119,7 @@ def getData(link, headers, ldate):
                 "area" : area,
                 "subject" : subject,
                 "writer" : writer,
-                "pdate" : posted_at.strftime("%m.%d.%Y %H:%M:%S"),
+                "pdate" : posted_at.strftime("%Y-%m-%d %H:%M:%S"),
                 "link" : plink,
             }
 
@@ -134,7 +134,6 @@ def getData(link, headers, ldate):
 def getExactPDate(link):
     dlink = domain+path+link
     print("2", dlink)
-    pdate = ''
 
     dp = requests.get(dlink, headers=headers)
     dp.raise_for_status()
@@ -142,7 +141,7 @@ def getExactPDate(link):
     # print(soup2.prettify())
     #data = []
     words = soup2.find("div", attrs={"class":"date"}).text.split('|')
-    return words[1].split(': ')[1].strip()
+    return datetime.strptime(words[1].split(': ')[1].strip(), '%m.%d.%Y %H:%M:%S')
 
 domain = "https://www.radiokorea.com/"
 path = "bulletin/bbs/board.php?"
