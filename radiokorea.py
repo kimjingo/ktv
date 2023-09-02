@@ -95,55 +95,57 @@ def getData(link, headers, ldate):
     # return True
     # soup1 = BeautifulSoup(tmp.text, "lxml")
     # lines = soup1.findAll("a", attrs={"class":"thumb"})
-    for line in lines:
+    for line in lines[1:]:
+        # print("15", line)
         # print(line.findChild()["href"].value)
         # link = line["href"].split("?")[1]
-        try:
-            # link = line["href"]
-            plink = line.find("a", attrs={"class":"thumb"})["href"].split("?")[1]
-            print("1", plink)
-            subject = (line.find("div", attrs={"class":"subject"}).text).strip()
-            area = (line.find("div", attrs={"class":"area"}).text).strip()
-            writer = (line.find("div", attrs={"class":"writer"}).text).strip()
-            pdatestr = (line.find("div", attrs={"class":"date"}).text).strip()
-            dd = pdatestr.split('.')
-            pdate = datetime.datetime(int('20'+dd[2]),int(dd[0]),int(dd[1]))
-            posted_at = getExactPDate(plink)
-            print("3", posted_at, type(posted_at))
-            # print(subject,area,writer,pdate,plink, end="\n"*1)
-            # print(subject, area, writer, pdate, plink)
-            if(pdate < ldate):
-                break
+        # try:
+        # link = line["href"]
+        plink = line.find("a", attrs={"class":"thumb"})["href"].split("?")[1]
+        print("11", plink)
+        subject = (line.find("div", attrs={"class":"subject"}).text).strip()
+        area = (line.find("div", attrs={"class":"area"}).text).strip()
+        writer = (line.find("div", attrs={"class":"writer"}).text).strip()
+        pdatestr = (line.find("div", attrs={"class":"date"}).text).strip()
+        dd = pdatestr.split('.')
+        pdate = datetime(int('20'+dd[2]),int(dd[0]),int(dd[1]))
+        # pdate = datetime.datetime(int('20'+dd[2]),int(dd[0]),int(dd[1]))
+        print("99")
+        ppdate = getExactPDate(plink)
+        print(ppdate, type(ppdate))
+        pd = datetime.strptime(ppdate, '%m.%d.%Y %H:%M:%S')
+        print(pd.strftime('%Y-%m-%d %H:%M:%S'))
 
-            ddict = {
-                "area" : area,
-                "subject" : subject,
-                "writer" : writer,
-                "pdate" : posted_at.strftime("%Y-%m-%d %H:%M:%S"),
-                "link" : plink,
-            }
+        if(pdate < ldate):
+            break
 
-            # print(ddict)
-            data.append(ddict)
-        except:
-            print(line)
+        ddict = {
+            "area" : area,
+            "subject" : subject,
+            "writer" : writer,
+            "pdate" : pd.strftime("%Y-%m-%d %H:%M:%S"),
+            "link" : plink,
+        }
+
+        # print(ddict)
+        data.append(ddict)
+        # except:
+        #     print(line)
         print('---------------------------------------')
     # print(data)
     return data
 
 def getExactPDate(link):
-    dlink = domain+path+link
-    print("2", dlink)
+    print(domain+path+link)
+    pdate = ''
 
-    dp = requests.get(dlink, headers=headers)
+    dp = requests.get(domain+path+link, headers=headers)
     dp.raise_for_status()
     soup2 = BeautifulSoup(dp.content, "html.parser")
     # print(soup2.prettify())
     #data = []
     words = soup2.find("div", attrs={"class":"date"}).text.split('|')
-    date_str = words[1].split(': ')[1].strip()
-    print("4", date_str)
-    return datetime.strptime(date_str, '%m.%d.%Y %H:%M:%S')
+    return words[1].split(': ')[1].strip()
 
 domain = "https://www.radiokorea.com/"
 path = "bulletin/bbs/board.php?"
@@ -151,18 +153,18 @@ headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/5
 def main():
     keywords = {
         "웹",
-        "개발",
-        "프로그",
-        "web",
-        "develop",
-        "python",
-        "golang",
-        "django",
-        "php"
+        # "개발",
+        # "프로그",
+        # "web",
+        # "develop",
+        # "python",
+        # "golang",
+        # "django",
+        # "php"
     }
     args = "bo_table=c_jobs&sca=&sfl=wr_subject&stx="
     tail = "&sop=and"
-    # lastupdated_at = datetime.datetime(2023,8,11)
+    # lastupdated_at = datetime.strptime('2023-08-20', '%Y-%m-%d')
     lastupdated_at = getLastdate(cursor)
     ddata = []
 
