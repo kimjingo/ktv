@@ -100,16 +100,17 @@ def getData(link, headers, ldate):
         # link = line["href"].split("?")[1]
         try:
             # link = line["href"]
-            link = line.find("a", attrs={"class":"thumb"})["href"].split("?")[1]
+            plink = line.find("a", attrs={"class":"thumb"})["href"].split("?")[1]
             subject = (line.find("div", attrs={"class":"subject"}).text).strip()
             area = (line.find("div", attrs={"class":"area"}).text).strip()
             writer = (line.find("div", attrs={"class":"writer"}).text).strip()
             pdatestr = (line.find("div", attrs={"class":"date"}).text).strip()
             dd = pdatestr.split('.')
             pdate = datetime.datetime(int('20'+dd[2]),int(dd[0]),int(dd[1]))
-            # print(link)
-            # print(subject,area,writer,pdate,link, end="\n"*1)
-            # print(subject, area, writer, pdate, link)
+            posted_at = getExactDate(plink)
+            # print(plink)
+            # print(subject,area,writer,pdate,plink, end="\n"*1)
+            # print(subject, area, writer, pdate, plink)
             if(pdate < ldate):
                 break
 
@@ -117,8 +118,8 @@ def getData(link, headers, ldate):
                 "area" : area,
                 "subject" : subject,
                 "writer" : writer,
-                "pdate" : pdate.strftime("%y-%m-%d"),
-                "link" : link,
+                "pdate" : posted_at.strftime("%m-%d-%Y %H:%M:%S"),
+                "link" : plink,
             }
 
             # print(ddict)
@@ -129,6 +130,21 @@ def getData(link, headers, ldate):
     # print(data)
     return data
 
+def getExactPDate(link):
+    print(domain+path+link)
+    pdate = ''
+
+    dp = requests.get(domain+path+link, headers=headers)
+    dp.raise_for_status()
+    soup2 = BeautifulSoup(dp.content, "html.parser")
+    # print(soup2.prettify())
+    #data = []
+    words = soup2.find("div", attrs={"class":"date"}).text.split('|')
+    return words[1].split(': ')[1].strip()
+
+domain = "https://www.radiokorea.com/"
+path = "bulletin/bbs/board.php?"
+headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"}
 def main():
     keywords = {
         "웹",
@@ -141,11 +157,8 @@ def main():
         "django",
         "php"
     }
-    domain = "https://www.radiokorea.com/"
-    path = "bulletin/bbs/board.php?"
     args = "bo_table=c_jobs&sca=&sfl=wr_subject&stx="
     tail = "&sop=and"
-    headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"}
     # lastupdated_at = datetime.datetime(2020,10,11)
     lastupdated_at = getLastdate(cursor)
     ddata = []
