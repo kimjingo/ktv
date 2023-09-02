@@ -153,14 +153,14 @@ headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/5
 def main():
     keywords = {
         "웹",
-        # "개발",
-        # "프로그",
-        # "web",
-        # "develop",
-        # "python",
-        # "golang",
-        # "django",
-        # "php"
+        "개발",
+        "프로그",
+        "web",
+        "develop",
+        "python",
+        "golang",
+        "django",
+        "php"
     }
     args = "bo_table=c_jobs&sca=&sfl=wr_subject&stx="
     tail = "&sop=and"
