@@ -101,13 +101,14 @@ def getData(link, headers, ldate):
         try:
             # link = line["href"]
             plink = line.find("a", attrs={"class":"thumb"})["href"].split("?")[1]
+            print("1", plink)
             subject = (line.find("div", attrs={"class":"subject"}).text).strip()
             area = (line.find("div", attrs={"class":"area"}).text).strip()
             writer = (line.find("div", attrs={"class":"writer"}).text).strip()
             pdatestr = (line.find("div", attrs={"class":"date"}).text).strip()
             dd = pdatestr.split('.')
             pdate = datetime.datetime(int('20'+dd[2]),int(dd[0]),int(dd[1]))
-            posted_at = getExactDate(plink)
+            posted_at = getExactPDate(plink)
             print(posted_at)
             # print(subject,area,writer,pdate,plink, end="\n"*1)
             # print(subject, area, writer, pdate, plink)
@@ -131,10 +132,11 @@ def getData(link, headers, ldate):
     return data
 
 def getExactPDate(link):
-    print(domain+path+link)
+    dlink = domain+path+link
+    print("2", dlink)
     pdate = ''
 
-    dp = requests.get(domain+path+link, headers=headers)
+    dp = requests.get(dlink, headers=headers)
     dp.raise_for_status()
     soup2 = BeautifulSoup(dp.content, "html.parser")
     # print(soup2.prettify())
@@ -159,7 +161,7 @@ def main():
     }
     args = "bo_table=c_jobs&sca=&sfl=wr_subject&stx="
     tail = "&sop=and"
-    # lastupdated_at = datetime.datetime(2020,10,11)
+    # lastupdated_at = datetime.datetime(2023,8,11)
     lastupdated_at = getLastdate(cursor)
     ddata = []
 
