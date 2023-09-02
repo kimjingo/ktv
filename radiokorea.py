@@ -14,7 +14,7 @@ cursor = mydb.cursor()
 
 def initTable(cur):
     ## create table ktvprograms
-    sql = """CREATE table IF NOT EXISTS `radiokorea` ( 
+    sql = """CREATE table IF NOT EXISTS `jobs` ( 
         `id` int(10) unsigned NOT NULL AUTO_INCREMENT, \
         `area` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT '', \
         `subject` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT '', \
@@ -54,7 +54,7 @@ def initTable(cur):
 
 def insertDb(rows):
     for row in rows:
-        sql = "INSERT IGNORE INTO radiokorea ( area, subject, link, writer, keyword, posted_at ) VALUE ( %s, %s, substring_index(%s, '&', 2), %s, %s, %s )"
+        sql = "INSERT IGNORE INTO jobs ( area, subject, link, writer, keyword, posted_at ) VALUE ( %s, %s, substring_index(%s, '&', 2), %s, %s, %s )"
         try:
             # Execute the SQL command
             # cursor.execute(sql, tuple(cols))
@@ -71,7 +71,7 @@ def insertDb(rows):
             print (err)
 
 def getLastdate(cur):
-    sql = "SELECT ifnull(max(posted_at), now() - interval 7 day)  lastposted FROM radiokorea"
+    sql = "SELECT ifnull(max(posted_at), now() - interval 7 day)  lastposted FROM jobs"
     try:
         # Execute the SQL command
         cursor.execute(sql)
