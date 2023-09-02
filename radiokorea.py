@@ -109,7 +109,7 @@ def getData(link, headers, ldate):
             dd = pdatestr.split('.')
             pdate = datetime.datetime(int('20'+dd[2]),int(dd[0]),int(dd[1]))
             posted_at = getExactPDate(plink)
-            print(posted_at)
+            print("3", posted_at)
             # print(subject,area,writer,pdate,plink, end="\n"*1)
             # print(subject, area, writer, pdate, plink)
             if(pdate < ldate):
