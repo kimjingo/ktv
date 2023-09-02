@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 # import pymysql
 import storage
 
-import datetime
+from datetime import datetime
 
 # Open database connection
 mydb = storage.connect()
@@ -141,7 +141,9 @@ def getExactPDate(link):
     # print(soup2.prettify())
     #data = []
     words = soup2.find("div", attrs={"class":"date"}).text.split('|')
-    return datetime.strptime(words[1].split(': ')[1].strip(), '%m.%d.%Y %H:%M:%S')
+    date_str = words[1].split(': ')[1].strip()
+    print("4", date_str)
+    return datetime.strptime(date_str, '%m.%d.%Y %H:%M:%S')
 
 domain = "https://www.radiokorea.com/"
 path = "bulletin/bbs/board.php?"
