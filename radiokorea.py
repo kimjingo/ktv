@@ -99,38 +99,38 @@ def getData(link, headers, ldate):
         # print("15", line)
         # print(line.findChild()["href"].value)
         # link = line["href"].split("?")[1]
-        # try:
-        # link = line["href"]
-        plink = line.find("a", attrs={"class":"thumb"})["href"].split("?")[1]
-        print("11", plink)
-        subject = (line.find("div", attrs={"class":"subject"}).text).strip()
-        area = (line.find("div", attrs={"class":"area"}).text).strip()
-        writer = (line.find("div", attrs={"class":"writer"}).text).strip()
-        pdatestr = (line.find("div", attrs={"class":"date"}).text).strip()
-        dd = pdatestr.split('.')
-        pdate = datetime(int('20'+dd[2]),int(dd[0]),int(dd[1]))
-        # pdate = datetime.datetime(int('20'+dd[2]),int(dd[0]),int(dd[1]))
-        print("99")
-        ppdate = getExactPDate(plink)
-        print(ppdate, type(ppdate))
-        pd = datetime.strptime(ppdate, '%m.%d.%Y %H:%M:%S')
-        print(pd.strftime('%Y-%m-%d %H:%M:%S'))
+        try:
+            # link = line["href"]
+            plink = line.find("a", attrs={"class":"thumb"})["href"].split("?")[1]
+            print("11", plink)
+            subject = (line.find("div", attrs={"class":"subject"}).text).strip()
+            area = (line.find("div", attrs={"class":"area"}).text).strip()
+            writer = (line.find("div", attrs={"class":"writer"}).text).strip()
+            pdatestr = (line.find("div", attrs={"class":"date"}).text).strip()
+            dd = pdatestr.split('.')
+            pdate = datetime(int('20'+dd[2]),int(dd[0]),int(dd[1]))
+            # pdate = datetime.datetime(int('20'+dd[2]),int(dd[0]),int(dd[1]))
+            print("99")
+            ppdate = getExactPDate(plink)
+            print(ppdate, type(ppdate))
+            pd = datetime.strptime(ppdate, '%m.%d.%Y %H:%M:%S')
+            print(pd.strftime('%Y-%m-%d %H:%M:%S'))
 
-        if(pdate < ldate):
-            break
+            if(pdate < ldate):
+                break
 
-        ddict = {
-            "area" : area,
-            "subject" : subject,
-            "writer" : writer,
-            "pdate" : pd.strftime("%Y-%m-%d %H:%M:%S"),
-            "link" : plink,
-        }
+            ddict = {
+                "area" : area,
+                "subject" : subject,
+                "writer" : writer,
+                "pdate" : pd.strftime("%Y-%m-%d %H:%M:%S"),
+                "link" : plink,
+            }
 
-        # print(ddict)
-        data.append(ddict)
-        # except:
-        #     print(line)
+            # print(ddict)
+            data.append(ddict)
+        except:
+            print(line)
         print('---------------------------------------')
     # print(data)
     return data
