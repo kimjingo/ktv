@@ -152,25 +152,28 @@ path = "bulletin/bbs/board.php?"
 headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"}
 def main():
     keywords = {
-        "웹",
-        "개발",
-        "프로그",
-        "web",
+        # "웹",
+        # "개발",
+        # "프로그",
+        # "web",
+        # "python",
+        # "django",
+        # "php",
+        # "vue",
         "develop",
-        "python",
-        "golang",
-        "django",
-        "php"
     }
     args = "bo_table=c_jobs&sca=&sfl=wr_subject&stx="
     tail = "&sop=and"
     # lastupdated_at = datetime.strptime('2023-08-20', '%Y-%m-%d')
     lastupdated_at = getLastdate(cursor)
+    print(lastupdated_at)
+
     ddata = []
 
     for keyword in keywords:
+        print("Searching with " + keyword + " started...")
         search = domain + path + args + keyword + tail
-        print(search + "\n")
+        print(search)
         ddd = getData(search, headers, lastupdated_at)
         # print(cols)
         for dd in ddd:
