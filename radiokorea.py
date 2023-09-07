@@ -71,7 +71,7 @@ def insertDb(rows):
             print (err)
 
 def getLastdate(cur):
-    sql = "SELECT ifnull(max(posted_at), now() - interval 7 day)  lastposted FROM jobs"
+    sql = "SELECT ifnull(max(posted_at), now()) - interval 1 day  lastposted FROM jobs"
     try:
         # Execute the SQL command
         cursor.execute(sql)
