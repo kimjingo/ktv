@@ -161,6 +161,7 @@ def main():
         "php",
         "vue",
         "develop",
+        "program"
     }
     args = "bo_table=c_jobs&sca=&sfl=wr_subject&stx="
     tail = "&sop=and"
